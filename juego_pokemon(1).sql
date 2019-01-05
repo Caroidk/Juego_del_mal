@@ -263,6 +263,16 @@ SELECT personajes.nombre AS Personaje,
  -- DELETE FROM nombre_tabla WHERE campo_tabla=condición [elimina el registro completo (fila)]
  
  DELETE FROM pokedexs WHERE pokedexs.alias='tortuguita'
+ 
+ -- eliminar todos los registros de la tabla pokedexs donde el usuario sea joshe ramirez
+ 
+ DELETE FROM pokedexs WHERE pokedexs.fk_personaje=6
+ 
+ DELETE pokedexs FROM pokedexs
+ INNER JOIN personajes ON pokedexs.fk_personaje=personajes.id
+ INNER JOIN usuarios ON personajes.fk_usuario=usuarios.id
+ WHERE usuarios.nombre='joshe ramirez'
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
