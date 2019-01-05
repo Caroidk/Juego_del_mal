@@ -196,7 +196,73 @@ ALTER TABLE `pokedexs`
   ADD CONSTRAINT `pokedexs_ibfk_1` FOREIGN KEY (`fk_pokemon`) REFERENCES `pokemons` (`id`),
   ADD CONSTRAINT `pokedexs_ibfk_2` FOREIGN KEY (`fk_personaje`) REFERENCES `personajes` (`id`);
 COMMIT;
+--
+--
+SELECT *
+FROM pokedexs 
+INNER JOIN pokemons ON pokedexs.fk_pokemon=pokemons.id
+INNER JOIN personajes ON pokedexs.fk_personaje=personajes.id
+INNER JOIN usuarios ON personajes.fk_usuario=usuarios.id
 
+-- Alias a una columna 'AS'
+ 
+SELECT personajes.nombre AS Personaje,
+       pokemons.nombre Pokemon,
+       usuarios.nombre AS Usuario, 
+       pokedexs.nivel AS Nivel, 
+       pokemons.tipo AS Tipo 
+ FROM pokedexs
+ INNER JOIN pokemons ON pokedexs.fk_pokemon=pokemons.id
+ INNER JOIN personajes ON pokedexs.fk_personaje=personajes.id
+ INNER JOIN usuarios ON personajes.fk_usuario=usuarios.id
+ WHERE pokemons.nombre='bulbasour'
+
+
+SELECT pokemons.nombre, 
+       pokemons.especie, 
+       pokemons.tipo 
+ FROM pokedexs
+ INNER JOIN pokemons ON pokedexs.fk_pokemon=pokemons.id
+ INNER JOIN personajes ON pokedexs.fk_personaje=personajes.id
+ INNER JOIN usuarios ON personajes.fk_usuario=usuarios.id
+ 
+ 
+SELECT usuarios.nombre AS Usuario, 
+       personajes.nombre AS Personaje, 
+       personajes.nivel AS Nivel,
+       pokedexs.alias Alias
+ FROM pokedexs
+ INNER JOIN pokemons ON pokedexs.fk_pokemon=pokemons.id
+ INNER JOIN personajes ON pokedexs.fk_personaje=personajes.id
+ INNER JOIN usuarios ON personajes.fk_usuario=usuarios.id
+
+ALTER TABLE pokedexs MODIFY nivel int DEFAULT 1;
+
+-- TRUNCATE nombre_tabla; (elimina todos los datos de una tabla)
+
+TRUNCATE pokedexs;
+
+-- UPDATE nombre_tabla SET nombre_campo = nuevo_valor
+
+UPDATE pokedexs SET alias='tortuguita' WHERE pokedexs.fk_pokemon = 3
+
+-- buscar el sgte resultado: pokemon del personaje 2, donde éste tipo 1
+
+SELECT personajes.nombre AS Personaje,
+       pokemons.nombre AS Pokemon
+ FROM pokedexs
+ INNER JOIN pokemons ON pokedexs.fk_pokemon=pokemons.id
+ INNER JOIN personajes ON pokedexs.fk_personaje=personajes.id
+ WHERE personajes.id=2 AND pokemons.nombre='bulbasour'
+ 
+ -- Arroja como resultado la cantidad de registros que cumplen la condición
+ 
+ SELECT COUNT(*) AS Cantidad FROM pokedexs
+  WHERE fk_personaje=2 AND fk_pokemon=1
+  
+ -- DELETE FROM nombre_tabla WHERE campo_tabla=condición [elimina el registro completo (fila)]
+ 
+ DELETE FROM pokedexs WHERE pokedexs.alias='tortuguita'
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
